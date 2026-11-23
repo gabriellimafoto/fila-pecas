@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Fila de Peças</title>
+<meta name="theme-color" content="#0e0d0c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Oswald:wght@600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -78,6 +82,7 @@ input[type=file]{display:none}
 <body>
 <div class="top">
   <div class="brand"><b>Fila de Peças</b><span id="count"></span></div>
+  <button class="ib pri" id="inst" title="Instalar no celular" aria-label="Instalar no celular" style="display:none"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M12 8v6M9.5 11.5 12 14l2.5-2.5"/></svg></button>
   <button class="ib" id="add" title="Adicionar fotos" aria-label="Adicionar fotos"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="15" rx="3"/><path d="M12 9v7M8.5 12.5h7"/></svg></button>
   <button class="ib" id="cfg" title="Configurações" aria-label="Configurações"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/></svg></button>
   <button class="ib pri" id="save" title="Salvar imagem" aria-label="Salvar imagem"><svg viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14"/></svg></button>
@@ -286,6 +291,11 @@ function ready(){return Promise.all(['100px Anton','100px "Bebas Neue"','600 100
 const area=document.querySelector('.area');new ResizeObserver(()=>{const w=area.clientWidth-20,h=area.clientHeight-20;const sw=Math.min(w,h*9/16);stage.style.width=sw+'px';stage.style.height=sw*16/9+'px';placeUI()}).observe(area);
 try{window.visualViewport&&visualViewport.addEventListener('resize',()=>{if(!editId)window.scrollTo(0,0)})}catch(e){}
 window.addEventListener('scroll',()=>{if(!editId&&window.scrollY)window.scrollTo(0,0)});
+let instEv=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();instEv=e;$('inst').style.display=''});
+window.addEventListener('appinstalled',()=>{$('inst').style.display='none';toast('App instalado na tela inicial')});
+$('inst').onclick=async()=>{if(!instEv)return;instEv.prompt();try{await instEv.userChoice}catch(e){}instEv=null;$('inst').style.display='none'};
+try{if('serviceWorker' in navigator&&location.protocol==='https:'&&location.hostname.endsWith('github.io'))navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}
 (async()=>{await restore();draw();await ready();draw()})();
 }
 </script>

@@ -1,0 +1,17 @@
+{
+  "name": "Fila de Peças",
+  "short_name": "Fila de Peças",
+  "description": "Monte o stories com o andamento das peças",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0e0d0c",
+  "theme_color": "#0e0d0c",
+  "lang": "pt-BR",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
